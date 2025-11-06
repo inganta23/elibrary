@@ -1,0 +1,9 @@
+**/node_modules
+.env
+postgres_data/
+backend_uploads/
+frontend/dist/
+*.log
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
