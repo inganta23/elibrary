@@ -1,4 +1,4 @@
-# 💻 Panduan Menjalankan Aplikasi Secara Lokal (Tanpa Docker)
+# 💻 Panduan Menjalankan Aplikasi Secara Lokal
 
 Panduan ini mengasumsikan Anda memiliki **Node.js, npm, dan PostgreSQL** yang berjalan di mesin host Anda.
 
