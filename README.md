@@ -1,9 +1,3 @@
-Tentu, saya akan mengubah semua instruksi Anda untuk menjalankan aplikasi secara **lokal (tanpa Docker)**.
-
-Ini akan mencakup panduan yang diperbarui untuk backend (memastikan koneksi ke `localhost`) dan panduan baru untuk frontend (memastikan proxy dan server berjalan di host Anda).
-
----
-
 # 💻 Panduan Menjalankan Aplikasi Secara Lokal (Tanpa Docker)
 
 Panduan ini mengasumsikan Anda memiliki **Node.js, npm, dan PostgreSQL** yang berjalan di mesin host Anda.
@@ -11,13 +5,9 @@ Panduan ini mengasumsikan Anda memiliki **Node.js, npm, dan PostgreSQL** yang be
 ## I. 🌐 Setup Awal (Backend & Frontend)
 
 1.  **Clone Repositori dan Instal Dependencies:**
-    Lakukan instalasi dependencies untuk kedua bagian proyek Anda.
+    Lakukan instalasi dependencies untuk frontend dan backend.
 
     ```bash
-    # Asumsi struktur:
-    # /project
-    #   ├── backend/
-    #   └── elibrary-frontend/
 
     # Instal Backend
     cd backend
@@ -28,18 +18,18 @@ Panduan ini mengasumsikan Anda memiliki **Node.js, npm, dan PostgreSQL** yang be
     npm install
     ```
 
-2.  **Siapkan Variabel Lingkungan (`.env`):**
-    Pastikan file **`.env`** di folder **`backend`** sudah ada dan diatur untuk koneksi lokal:
+2.  **Siapkan Variabel .env :**
+    Pastikan file **`.env`** di folder **`backend`** sudah ada (tinggal menyesuaikan dengan .env.local):
 
     ```dotenv
     # backend/.env
-    # DB_HOST harus 'localhost' karena Anda menjalankan PostgreSQL secara lokal
+    # DB_HOST = 'localhost' untuk menjalankan PostgreSQL secara lokal
     DB_HOST=localhost
     DB_PORT=5432
     DB_NAME=elibrary
     DB_USER=postgres
-    DB_PASSWORD=password # Pastikan sesuai dengan password PostgreSQL lokal Anda
-    # ... variabel lain
+    DB_PASSWORD=password # Pastikan sesuai dengan password PostgreSQL lokal anda
+    # ... variabel lain (template ada pada .env.local)
     ```
 
 3.  **Inisialisasi Database:**
@@ -55,7 +45,7 @@ Panduan ini mengasumsikan Anda memiliki **Node.js, npm, dan PostgreSQL** yang be
 
 ## II. 📦 Menjalankan Backend (Server API)
 
-Setelah database terinisialisasi, jalankan server API di mode pengembangan.
+Setelah database terinisialisasi, jalankan server API.
 
 1.  **Lokasi:** Dari folder `backend`.
 2.  **Perintah:**
@@ -72,15 +62,15 @@ Setelah database terinisialisasi, jalankan server API di mode pengembangan.
 Untuk menjalankan frontend, Anda akan menggunakan perintah `vite` dan mengandalkan proxy yang sudah dikonfigurasi di `vite.config.js`.
 
 1.  **Pastikan Konfigurasi Proxy Benar:**
-    Periksa file `elibrary-frontend/vite.config.js` Anda:
+    Periksa file `frontend/vite.config.js` anda:
 
     ```javascript
-    // elibrary-frontend/vite.config.js
+    // frontend/vite.config.js
     // ...
     server: {
       proxy: {
         "/api": {
-          // HARUS menunjuk ke alamat backend lokal Anda
+          // HARUS menunjuk ke alamat backend lokal anda
           target: "http://localhost:5000",
           changeOrigin: true,
         },
@@ -89,7 +79,7 @@ Untuk menjalankan frontend, Anda akan menggunakan perintah `vite` dan mengandalk
     // ...
     ```
 
-2.  **Lokasi:** Dari folder `elibrary-frontend`.
+2.  **Lokasi:** Dari folder `frontend`.
 
 3.  **Perintah:**
 
@@ -103,5 +93,3 @@ Untuk menjalankan frontend, Anda akan menggunakan perintah `vite` dan mengandalk
 Koneksi: Frontend (`localhost:5173`) akan menggunakan _proxy_ untuk meneruskan permintaan `/api` ke Backend (`localhost:5000`).
 
 ---
-
-Apakah Anda ingin saya membantu memastikan file `.env` untuk frontend Anda, jika ada, sudah diatur dengan benar untuk konsumsi API?
