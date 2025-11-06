@@ -2,7 +2,7 @@
 
 Panduan ini mengasumsikan Anda memiliki **Node.js, npm, dan PostgreSQL** yang berjalan di mesin host Anda.
 
-## I. 🌐 Setup Awal (Backend & Frontend)
+## I. Setup Awal (Backend & Frontend)
 
 1.  **Clone Repositori dan Instal Dependencies:**
     Lakukan instalasi dependencies untuk frontend dan backend.
@@ -43,7 +43,7 @@ Panduan ini mengasumsikan Anda memiliki **Node.js, npm, dan PostgreSQL** yang be
 
 ---
 
-## II. 📦 Menjalankan Backend (Server API)
+## II. Menjalankan Backend (Server API)
 
 Setelah database terinisialisasi, jalankan server API.
 
@@ -57,7 +57,7 @@ Setelah database terinisialisasi, jalankan server API.
 
 ---
 
-## III. 🖥️ Menjalankan Frontend (React/Vite)
+## III. Menjalankan Frontend (React/Vite)
 
 Untuk menjalankan frontend, Anda akan menggunakan perintah `vite` dan mengandalkan proxy yang sudah dikonfigurasi di `vite.config.js`.
 
@@ -93,3 +93,7 @@ Untuk menjalankan frontend, Anda akan menggunakan perintah `vite` dan mengandalk
 Koneksi: Frontend (`localhost:5173`) akan menggunakan _proxy_ untuk meneruskan permintaan `/api` ke Backend (`localhost:5000`).
 
 ---
+
+## IV. Dokumentasi API
+
+Dokumentasi API sudah dilampirkan dengan format postman `.json`. Terdapat 2 file yaitu collection API dan environtmentnya. Silahkan import kedua file tersebut ke postman anda.
