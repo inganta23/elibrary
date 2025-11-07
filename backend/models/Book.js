@@ -29,7 +29,6 @@ class Book {
 
   static async search(query, { page = 1, limit = 10 } = {}) {
     const offset = (page - 1) * limit;
-    console.log(query);
     const result = await db.query(
       `SELECT b.*, u.email as uploaded_by_email 
        FROM books b 

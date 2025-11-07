@@ -1,4 +1,3 @@
-// setup-db.js
 const { Pool } = require("pg");
 require("dotenv").config();
 
@@ -8,7 +7,6 @@ async function setupDatabase() {
   let dbPool;
 
   try {
-    // Step 1: Connect to default postgres database to check/create our database
     const mainPool = new Pool({
       host: process.env.DB_HOST,
       port: process.env.DB_PORT,
@@ -20,7 +18,6 @@ async function setupDatabase() {
     mainClient = await mainPool.connect();
     console.log("✅ Connected to PostgreSQL");
 
-    // Check if database exists
     const dbCheck = await mainClient.query(
       "SELECT 1 FROM pg_database WHERE datname = $1",
       [process.env.DB_NAME]
@@ -34,11 +31,9 @@ async function setupDatabase() {
       console.log(`📊 Database ${process.env.DB_NAME} already exists`);
     }
 
-    // Release main client and close pool
     await mainClient.release();
     await mainPool.end();
 
-    // Step 2: Connect to our target database and create tables
     dbPool = new Pool({
       host: process.env.DB_HOST,
       port: process.env.DB_PORT,
@@ -50,11 +45,9 @@ async function setupDatabase() {
     dbClient = await dbPool.connect();
     console.log(`✅ Connected to database: ${process.env.DB_NAME}`);
 
-    // Enable UUID extension
     await dbClient.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
     console.log("✅ UUID extension enabled");
 
-    // Create tables with UUID
     await createTables(dbClient);
 
     console.log("🎉 Database setup completed successfully!");
@@ -62,7 +55,6 @@ async function setupDatabase() {
     console.error("❌ Error setting up database:", error.message);
     process.exit(1);
   } finally {
-    // Cleanup connections safely
     if (dbClient) {
       await dbClient.release();
     }
@@ -74,7 +66,6 @@ async function setupDatabase() {
 
 async function createTables(client) {
   try {
-    // Users table with UUID
     const userTableExists = await client.query(`
       SELECT EXISTS (
         SELECT FROM information_schema.tables 
@@ -99,7 +90,6 @@ async function createTables(client) {
       console.log("✅ Users table already exists");
     }
 
-    // Books table with UUID
     const bookTableExists = await client.query(`
       SELECT EXISTS (
         SELECT FROM information_schema.tables 
@@ -125,7 +115,6 @@ async function createTables(client) {
       console.log("✅ Books table already exists");
     }
 
-    // Favorites table with UUID
     const favoriteTableExists = await client.query(`
       SELECT EXISTS (
         SELECT FROM information_schema.tables 
@@ -155,7 +144,6 @@ async function createTables(client) {
   }
 }
 
-// Run setup if this file is executed directly
 if (require.main === module) {
   setupDatabase();
 }

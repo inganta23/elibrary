@@ -66,7 +66,6 @@ const bookController = {
   async searchBooks(req, res) {
     try {
       const { q, page = 1, limit = 10 } = req.query;
-      console.log(q);
       if (!q) {
         return res.status(400).json({
           success: false,
@@ -99,7 +98,6 @@ const bookController = {
       const { title, description } = req.body;
       const uploaded_by = req.user.id;
 
-      // Handle file upload
       const image_url = req.file ? `/uploads/${req.file.filename}` : null;
 
       const book = await Book.create({
@@ -128,7 +126,6 @@ const bookController = {
       const { id } = req.params;
       const { title, description } = req.body;
 
-      // Check if book exists
       const existingBook = await Book.findById(id);
       if (!existingBook) {
         return res.status(404).json({
@@ -137,7 +134,6 @@ const bookController = {
         });
       }
 
-      // Handle file upload
       const image_url = req.file
         ? `/uploads/${req.file.filename}`
         : existingBook.image_url;
@@ -166,7 +162,6 @@ const bookController = {
     try {
       const { id } = req.params;
 
-      // Check if book exists
       const existingBook = await Book.findById(id);
       if (!existingBook) {
         return res.status(404).json({

@@ -6,12 +6,10 @@ const poolConfig = {
   database: process.env.DB_NAME || "elibrary",
   user: process.env.DB_USER || "postgres",
   password: process.env.DB_PASSWORD || "password",
-  // Enhanced configuration for Docker
   connectionTimeoutMillis: 30000,
   idleTimeoutMillis: 30000,
   max: 20,
   allowExitOnIdle: false,
-  // Connection retry logic
   retryConnection: {
     maxRetries: 5,
     delay: 5000,
@@ -20,14 +18,12 @@ const poolConfig = {
 
 const pool = new Pool(poolConfig);
 
-// Enhanced connection handling with retries
 const initializeDatabase = async (retries = 5, delay = 5000) => {
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
       const client = await pool.connect();
       console.log("✅ Database connection established successfully");
 
-      // Test basic query
       await client.query("SELECT 1");
       client.release();
 
@@ -49,7 +45,6 @@ const initializeDatabase = async (retries = 5, delay = 5000) => {
   }
 };
 
-// Event listeners for better monitoring
 pool.on("connect", () => {
   console.log("🔗 New database connection established");
 });
@@ -60,10 +55,8 @@ pool.on("remove", () => {
 
 pool.on("error", (err, client) => {
   console.error("💥 Unexpected error on idle database client:", err);
-  // Don't exit process, let the pool handle reconnections
 });
 
-// Initialize database connection
 initializeDatabase()
   .then(() => {
     console.log("🎉 Database layer initialized successfully");
@@ -76,5 +69,5 @@ initializeDatabase()
 module.exports = {
   query: (text, params) => pool.query(text, params),
   getClient: () => pool.connect(),
-  pool, // Export pool for direct access if needed
+  pool,
 };

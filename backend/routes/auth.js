@@ -5,7 +5,6 @@ const { authenticateToken } = require("../middleware/auth");
 
 const router = express.Router();
 
-// Validation rules
 const registerValidation = [
   body("email").isEmail().normalizeEmail(),
   body("password")
@@ -27,7 +26,6 @@ const loginValidation = [
   body("password").notEmpty(),
 ];
 
-// Routes
 router.post("/register", registerValidation, authController.register);
 router.post("/login", loginValidation, authController.login);
 router.post("/logout", authenticateToken, authController.logout);

@@ -6,7 +6,6 @@ const { validationResult } = require("express-validator");
 const authController = {
   async register(req, res) {
     try {
-      // Check validation errors
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -14,7 +13,6 @@ const authController = {
 
       const { email, password } = req.body;
 
-      // Check if user exists
       const existingUser = await User.findByEmail(email);
       if (existingUser) {
         return res
@@ -22,13 +20,10 @@ const authController = {
           .json({ error: "User already exists with this email" });
       }
 
-      // Hash password
       const hashedPassword = await bcrypt.hash(password, 12);
 
-      // Create user
       const user = await User.create(email, hashedPassword);
 
-      // Generate token
       const token = jwt.sign(
         {
           id: user.id,
@@ -61,7 +56,6 @@ const authController = {
 
   async login(req, res) {
     try {
-      // Check validation errors
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -69,7 +63,6 @@ const authController = {
 
       const { email, password } = req.body;
 
-      // Find user
       const user = await User.findByEmail(email);
       if (!user) {
         return res.status(400).json({
@@ -78,7 +71,6 @@ const authController = {
         });
       }
 
-      // Check password
       const validPassword = await bcrypt.compare(password, user.password);
       if (!validPassword) {
         return res.status(400).json({
@@ -87,7 +79,6 @@ const authController = {
         });
       }
 
-      // Generate token
       const token = jwt.sign(
         {
           id: user.id,
@@ -120,8 +111,6 @@ const authController = {
 
   async logout(req, res) {
     try {
-      // Since we're using JWT, we can't invalidate the token on server-side
-      // Client should remove the token from storage
       res.json({
         success: true,
         message: "Logout successful",
@@ -136,7 +125,6 @@ const authController = {
   },
 
   async getCurrentUser(req, res) {
-    console.log(req.user.id);
     try {
       const user = await User.findById(req.user.id);
       if (!user) {

@@ -36,7 +36,6 @@ const userController = {
       const { email } = req.body;
       const user_id = req.user.id;
 
-      // Check if email already exists (excluding current user)
       if (email) {
         const existingUser = await User.findByEmail(email);
         if (existingUser && existingUser.id !== user_id) {

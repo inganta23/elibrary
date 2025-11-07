@@ -12,7 +12,6 @@ class Favorite {
       return result.rows[0];
     } catch (error) {
       if (error.code === "23505") {
-        // Unique violation
         throw new Error("Book already in favorites");
       }
       throw error;

@@ -4,20 +4,17 @@ const path = require("path");
 const fs = require("fs");
 require("dotenv").config();
 
-// Import routes
 const authRoutes = require("./routes/auth");
 const bookRoutes = require("./routes/books");
 const userRoutes = require("./routes/users");
 
 const app = express();
 
-// Ensure uploads directory exists
 const uploadsDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-// Enhanced CORS configuration
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN
@@ -29,14 +26,11 @@ app.use(
   })
 );
 
-// Enhanced middleware
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-// Serve uploaded files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Request logging middleware
 app.use((req, res, next) => {
   console.log(
     `${new Date().toISOString()} - ${req.method} ${req.path} - IP: ${req.ip}`
@@ -44,19 +38,17 @@ app.use((req, res, next) => {
   next();
 });
 
-// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/books", bookRoutes);
 app.use("/api/users", userRoutes);
 
-// Enhanced health check endpoint
 app.get("/api/health", (req, res) => {
   const healthcheck = {
     uptime: process.uptime(),
     message: "OK",
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || "development",
-    database: "connected", // You can add actual DB check here
+    database: "connected",
     memory: process.memoryUsage(),
   };
 
@@ -68,11 +60,9 @@ app.get("/api/health", (req, res) => {
   }
 });
 
-// Enhanced error handling middleware
 app.use((err, req, res, next) => {
   console.error("🚨 Error Stack:", err.stack);
 
-  // Multer file upload error
   if (err.code === "LIMIT_FILE_SIZE") {
     return res.status(413).json({
       success: false,
@@ -87,7 +77,6 @@ app.use((err, req, res, next) => {
     });
   }
 
-  // Default error
   res.status(500).json({
     success: false,
     error:
@@ -97,7 +86,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 404 handler
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -118,7 +106,6 @@ const server = app.listen(PORT, "0.0.0.0", () => {
   `);
 });
 
-// Graceful shutdown
 process.on("SIGTERM", () => {
   console.log("SIGTERM received, shutting down gracefully");
   server.close(() => {

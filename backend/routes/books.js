@@ -5,12 +5,10 @@ const upload = require("../middleware/upload");
 
 const router = express.Router();
 
-// Public routes
 router.get("/", bookController.getAllBooks);
 router.get("/search", bookController.searchBooks);
 router.get("/:id", bookController.getBookById);
 
-// Protected routes
 router.post(
   "/",
   authenticateToken,
@@ -32,7 +30,6 @@ router.delete(
   bookController.deleteBook
 );
 
-// Favorites
 router.get(
   "/:id/favorites",
   authenticateToken,
