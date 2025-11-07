@@ -153,7 +153,8 @@ async function createTables(client) {
           id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
           token TEXT NOT NULL UNIQUE,
           expires_at TIMESTAMP NOT NULL,
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
         )
       `);
       console.log("✅ Token blacklist table created with UUID");
