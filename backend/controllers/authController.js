@@ -2,6 +2,7 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
+const TokenBlacklist = require("../models/TokenBlacklist");
 
 const authController = {
   async register(req, res) {
@@ -31,7 +32,7 @@ const authController = {
           email: user.email,
         },
         process.env.JWT_SECRET,
-        { expiresIn: "7d" }
+        { expiresIn: "1d" }
       );
 
       res.status(201).json({
@@ -86,7 +87,7 @@ const authController = {
           email: user.email,
         },
         process.env.JWT_SECRET,
-        { expiresIn: "7d" }
+        { expiresIn: "1d" }
       );
 
       res.json({
@@ -111,6 +112,16 @@ const authController = {
 
   async logout(req, res) {
     try {
+      const authHeader = req.headers["authorization"];
+      const token = authHeader && authHeader.split(" ")[1];
+
+      if (token) {
+        const decoded = jwt.decode(token);
+        const expiresAt = new Date(decoded.exp * 1000);
+
+        await TokenBlacklist.add(token, expiresAt);
+      }
+
       res.json({
         success: true,
         message: "Logout successful",

@@ -97,3 +97,51 @@ Koneksi: Frontend (`localhost:5173`) akan menggunakan _proxy_ untuk meneruskan p
 ## IV. Dokumentasi API
 
 Dokumentasi API sudah dilampirkan dengan format postman `.json`. Terdapat 2 file yaitu collection API dan environtmentnya. Silahkan import kedua file tersebut ke postman anda.
+
+---
+
+## 📚 Panduan Aplikasi E-Library
+
+Aplikasi ini adalah platform perpustakaan digital modern yang dibangun dengan _frontend_ **React.js** dan _backend_ **Node.js**.
+
+### 🎯 Fitur Utama dan Alur Pengguna (Paling Penting)
+
+Bagian ini mencakup langkah-langkah penting yang diambil pengguna untuk mengakses dan menggunakan fungsi utama perpustakaan.
+
+- **🔐 Autentikasi:** Landasan untuk mengakses fitur yang dipersonalisasi.
+  - **Daftar** akun baru atau **Masuk** (_Login_) menggunakan **token JWT** yang aman.
+  - _Akun Demo:_ **Admin** (`admin@example.com`) atau **Pengguna** (`user@example.com`) dengan kata sandi `Admin123`.
+- **📚 Penjelajahan dan Pencarian Buku:** Tujuan utama dari perpustakaan.
+  - **Telusuri Buku:** Akses katalog buku publik.
+  - **Cari Buku:** Temukan judul dengan cepat berdasarkan **judul atau deskripsi**.
+  - **Lihat Detail Buku:** Tampilkan informasi lengkap untuk setiap judul.
+- **❤️ Sistem Favorit:** Fitur personalisasi penting bagi pengguna.
+  - **Tambah ke Favorit:** Simpan buku yang menarik ke koleksi pribadi.
+  - **Daftar Favorit:** Kelola dan lihat semua buku yang telah Anda simpan dengan mudah.
+
+---
+
+### 👤 Pengelolaan User & Admin
+
+Fitur-fitur ini mencakup aspek pemeliharaan dan personalisasi aplikasi.
+
+- **🛠️ Pengelolaan Buku Admin (Akses Admin):** Fungsi inti untuk pemeliharaan platform.
+  - **Unggah Admin:** Tambahkan buku baru beserta gambar (khusus Admin).
+  - **Edit & Hapus:** Kelola dan perbarui konten buku (khusus Admin).
+- **⚙️ Profil & Pengaturan Pengguna:** Kontrol personalisasi dan akun.
+  - **Manajemen Profil:** Perbarui informasi pribadi dan email.
+  - **Dashboard Pribadi:** Lihat aktivitas Anda dan kelola preferensi.
+
+---
+
+### 💻 Teknis dan Desain
+
+Penyebutan singkat tentang teknologi dan desain untuk memberikan konteks.
+
+- **🎨 Antarmuka Pengguna (UI):** Memastikan pengalaman yang hebat di perangkat apa pun.
+  - **Desain Responsif & Ramah Seluler (_Mobile-Friendly_):** Dioptimalkan untuk semua ukuran layar.
+- **🛠️ Teknologi (_Tech Stack_):** Teknologi yang digunakan.
+  - **Frontend:** **React.js**, **Vite**, **Tailwind CSS**.
+  - **Backend:** **Node.js** dengan **Express.js**, **PostgreSQL** (Database), **JWT** (Autentikasi), dan **bcrypt** (Hasing Kata Sandi).
+
+---

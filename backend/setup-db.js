@@ -138,6 +138,36 @@ async function createTables(client) {
     } else {
       console.log("✅ Favorites table already exists");
     }
+
+    const blacklistTableExists = await client.query(`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_schema = 'public' 
+        AND table_name = 'token_blacklist'
+      )
+    `);
+
+    if (!blacklistTableExists.rows[0].exists) {
+      await client.query(`
+        CREATE TABLE token_blacklist (
+          id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+          token TEXT NOT NULL UNIQUE,
+          expires_at TIMESTAMP NOT NULL,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+      `);
+      console.log("✅ Token blacklist table created with UUID");
+
+      await client.query(`
+        CREATE INDEX idx_token_blacklist_token ON token_blacklist(token)
+      `);
+      await client.query(`
+        CREATE INDEX idx_token_blacklist_expires ON token_blacklist(expires_at)
+      `);
+      console.log("✅ Token blacklist indexes created");
+    } else {
+      console.log("✅ Token blacklist table already exists");
+    }
   } catch (error) {
     console.error("❌ Error creating tables:", error.message);
     throw error;

@@ -1,11 +1,17 @@
 const jwt = require("jsonwebtoken");
+const TokenBlacklist = require("../models/TokenBlacklist");
 
-const authenticateToken = (req, res, next) => {
+const authenticateToken = async (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1]; // Bearer TOKEN
 
   if (!token) {
     return res.status(401).json({ error: "Access token required" });
+  }
+
+  const isBlacklisted = await TokenBlacklist.isBlacklisted(token);
+  if (isBlacklisted) {
+    return res.status(403).json({ error: "Token has been revoked" });
   }
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
